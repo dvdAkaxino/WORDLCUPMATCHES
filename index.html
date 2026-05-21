@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Mundial 2026</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    margin:0;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:40px;
+    font-size:42px;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:25px;
+}
+
+.country{
+    background:#1e293b;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.35);
+}
+
+.country-header{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.flag{
+    width:45px;
+    height:32px;
+    border-radius:4px;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,0.2);
+}
+
+.country h2{
+    margin:0;
+    font-size:30px;
+}
+
+.match{
+    background:#334155;
+    padding:16px;
+    border-radius:14px;
+    margin-top:15px;
+}
+
+.match-teams{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+}
+
+.team{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.team img{
+    width:32px;
+    height:22px;
+    border-radius:3px;
+}
+
+.vs{
+    font-size:18px;
+    opacity:0.8;
+}
+
+.date{
+    text-align:center;
+    font-size:15px;
+    opacity:0.85;
+    margin-bottom:15px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+}
+
+button{
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.2s;
+    font-size:15px;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.rtve{
+    background:#ffcc00;
+    color:black;
+}
+
+.caracol{
+    background:#00b4ff;
+    color:white;
+}
+
+.bbc{
+    background:#ff2b2b;
+    color:white;
+}
+
+a{
+    text-decoration:none;
+}
+
+</style>
+</head>
+<body>
+
+<h1>⚽ Mundial 2026</h1>
+
+<div class="container" id="matchesContainer"></div>
+
+<script>
+
+const worldCupData = [
+
+{
+    country: "España",
+    flag: "https://flagcdn.com/w320/es.png",
+    broadcaster: {
+        name: "RTVE",
+        url: "https://www.rtve.es/play/"
+    },
+    matches: [
+        {
+            opponent: "Cabo Verde",
+            opponentFlag: "https://flagcdn.com/w320/cv.png",
+            date: "15 Junio 2026"
+        },
+        {
+            opponent: "Arabia Saudita",
+            opponentFlag: "https://flagcdn.com/w320/sa.png",
+            date: "21 Junio 2026"
+        },
+        {
+            opponent: "Uruguay",
+            opponentFlag: "https://flagcdn.com/w320/uy.png",
+            date: "27 Junio 2026"
+        }
+    ]
+},
+
+{
+    country: "Colombia",
+    flag: "https://flagcdn.com/w320/co.png",
+    broadcaster: {
+        name: "Caracol TV",
+        url: "https://gol.caracoltv.com/"
+    },
+    matches: [
+        {
+            opponent: "Uzbekistán",
+            opponentFlag: "https://flagcdn.com/w320/uz.png",
+            date: "19 Junio 2026"
+        },
+        {
+            opponent: "Congo",
+            opponentFlag: "https://flagcdn.com/w320/cg.png",
+            date: "24 Junio 2026"
+        },
+        {
+            opponent: "Portugal",
+            opponentFlag: "https://flagcdn.com/w320/pt.png",
+            date: "28 Junio 2026"
+        }
+    ]
+},
+
+{
+    country: "Escocia",
+    flag: "https://flagcdn.com/w320/gb-sct.png",
+    broadcaster: {
+        name: "BBC",
+        url: "https://www.bbc.com/sport/football"
+    },
+    matches: [
+        {
+            opponent: "Haití",
+            opponentFlag: "https://flagcdn.com/w320/ht.png",
+            date: "14 Junio 2026"
+        },
+        {
+            opponent: "Marruecos",
+            opponentFlag: "https://flagcdn.com/w320/ma.png",
+            date: "19 Junio 2026"
+        },
+        {
+            opponent: "Brasil",
+            opponentFlag: "https://flagcdn.com/w320/br.png",
+            date: "24 Junio 2026"
+        }
+    ]
+}
+
+];
+
+const container = document.getElementById("matchesContainer");
+
+worldCupData.forEach(team => {
+
+    const card = document.createElement("div");
+    card.className = "country";
+
+    let matchesHTML = "";
+
+    team.matches.forEach(match => {
+
+        let buttonClass = "";
+
+        if(team.broadcaster.name.includes("RTVE")){
+            buttonClass = "rtve";
+        }
+
+        if(team.broadcaster.name.includes("Caracol")){
+            buttonClass = "caracol";
+        }
+
+        if(team.broadcaster.name.includes("BBC")){
+            buttonClass = "bbc";
+        }
+
+        matchesHTML += `
+
+            <div class="match">
+
+                <div class="match-teams">
+
+                    <div class="team">
+                        <img src="${team.flag}" alt="${team.country}">
+                        ${team.country}
+                    </div>
+
+                    <div class="vs">VS</div>
+
+                    <div class="team">
+                        <img src="${match.opponentFlag}" alt="${match.opponent}">
+                        ${match.opponent}
+                    </div>
+
+                </div>
+
+                <div class="date">
+                    📅 ${match.date}
+                </div>
+
+                <div class="buttons">
+
+                    <a href="${team.broadcaster.url}" target="_blank">
+
+                        <button class="${buttonClass}">
+                            Ver en ${team.broadcaster.name}
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+    });
+
+    card.innerHTML = `
+
+        <div class="country-header">
+
+            <img class="flag" src="${team.flag}" alt="${team.country}">
+
+            <h2>${team.country}</h2>
+
+        </div>
+
+        ${matchesHTML}
+
+    `;
+
+    container.appendChild(card);
+
+});
+
+</script>
+
+</body>
+</html>
